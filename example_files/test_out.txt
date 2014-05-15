@@ -1,0 +1,39 @@
+#before=(g1;;d, ((g2;;a, g3;;a, g4;;a, g5;;b), (g6;;a, g7;;b, g8;;c)));
+#dlscore=8
+(g1__d, ((((g2__a, g4__a), g3__a), g5__b), ((g6__a, g7__b), g8__c)));
+#before=(g2;;a, (g3;;a, g4;;a, g5;;b, (g1;;d, (g6;;a, g7;;b, g8;;c))));
+#dlscore=10
+(g2__a, ((g1__d, ((g6__a, g7__b), g8__c)), ((g3__a, g4__a), g5__b)));
+#before=(g3;;a, (g2;;a, g4;;a, g5;;b, (g1;;d, (g6;;a, g7;;b, g8;;c))));
+#dlscore=10
+(g3__a, ((g1__d, ((g6__a, g7__b), g8__c)), ((g2__a, g4__a), g5__b)));
+#before=(g4;;a, (g2;;a, g3;;a, g5;;b, (g1;;d, (g6;;a, g7;;b, g8;;c))));
+#dlscore=10
+(g4__a, ((g1__d, ((g6__a, g7__b), g8__c)), ((g2__a, g3__a), g5__b)));
+#before=(g5;;b, (g2;;a, g3;;a, g4;;a, (g1;;d, (g6;;a, g7;;b, g8;;c))));
+#dlscore=12
+(g5__b, ((g1__d, ((g6__a, g7__b), g8__c)), ((g2__a, g4__a), g3__a)));
+#before=(g2;;a, g3;;a, g4;;a, g5;;b, (g1;;d, (g6;;a, g7;;b, g8;;c)));
+#dlscore=8
+((g1__d, ((g6__a, g7__b), g8__c)), (((g2__a, g4__a), g3__a), g5__b));
+#before=((g2;;a, g3;;a, g4;;a, g5;;b), (g1;;d, (g6;;a, g7;;b, g8;;c)));
+#dlscore=8
+((g1__d, ((g6__a, g7__b), g8__c)), (((g2__a, g4__a), g3__a), g5__b));
+#before=(g6;;a, (g7;;b, g8;;c, (g1;;d, (g2;;a, g3;;a, g4;;a, g5;;b))));
+#dlscore=9
+(g6__a, ((g1__d, (((g2__a, g4__a), g3__a), g5__b)), (g7__b, g8__c)));
+#before=(g7;;b, (g6;;a, g8;;c, (g1;;d, (g2;;a, g3;;a, g4;;a, g5;;b))));
+#dlscore=9
+(g7__b, ((g1__d, (((g2__a, g4__a), g3__a), g5__b)), (g6__a, g8__c)));
+#before=(g8;;c, (g6;;a, g7;;b, (g1;;d, (g2;;a, g3;;a, g4;;a, g5;;b))));
+#dlscore=8
+(g8__c, ((g1__d, (((g2__a, g4__a), g3__a), g5__b)), (g6__a, g7__b)));
+#before=(g6;;a, g7;;b, g8;;c, (g1;;d, (g2;;a, g3;;a, g4;;a, g5;;b)));
+#dlscore=5
+((g1__d, (((g2__a, g4__a), g3__a), g5__b)), ((g6__a, g7__b), g8__c));
+#before=((g6;;a, g7;;b, g8;;c), (g1;;d, (g2;;a, g3;;a, g4;;a, g5;;b)));
+#dlscore=5
+((g1__d, (((g2__a, g4__a), g3__a), g5__b)), ((g6__a, g7__b), g8__c));
+#before=(g1;;d, (g2;;a, g3;;a, g4;;a, g5;;b), (g6;;a, g7;;b, g8;;c));
+#dlscore=5
+(((g6__a, g7__b), g8__c), ((((g2__a, g4__a), g3__a), g5__b), g1__d));
