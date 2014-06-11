@@ -989,7 +989,7 @@ set<Node*> PolySolverDistance::ComputeLinkSpeciesLeaves(vector<Node*> polytomyCh
 
             if (s != s2 && s2->HasAncestor(s))
             {
-                it1 = leafset.erase(it1);
+                leafset.erase(it1++);
                 removed = true;
             }
         }
