@@ -547,23 +547,7 @@ int main(int argc, char *argv[])
     //-gl 1 -s "/u/lafonman/Projects/PolytomySolverDistance_1.2.2/example_files/bad/Compara.73.species_tree" -g "/u/lafonman/Projects/PolytomySolverDistance_1.2.2/example_files/bad/famille_2.start_tree" -d "/u/lafonman/Projects/PolytomySolverDistance_1.2.2/example_files/bad/famille_2.dist" -r findbestroot -n -o "/u/lafonman/Projects/PolytomySolverDistance_1.2.2/example_files/bad/test_2.newick"
     //-gl 1 -s "/u/lafonman/Projects/PolytomySolverDistance_1.2.3/example_files/bad/Compara.73.species_tree" -g "/u/lafonman/Projects/PolytomySolverDistance_1.2.3/example_files/bad/famille_2.start_tree" -d "/u/lafonman/Projects/PolytomySolverDistance_1.2.3/example_files/bad/famille_2.dist" -r findbestroot -n -v
     //-gl 1 -s "/u/lafonman/Projects/PolytomySolverDistance_1.2.3/example_files/joseg/jospecies.txt" -g "/u/lafonman/Projects/PolytomySolverDistance_1.2.3/example_files/joseg/jogene.txt" -d "/u/lafonman/Projects/PolytomySolverDistance_1.2.3/example_files/joseg/jodist.txt" -r findbestroot -n -v
-
-
-    string geneTreeString = "((A1,B1),C1);";
-    string speciesTreeString = "((A,C)x,B)y;";
-
-    boost::python::list geneSpeciesMapping;
-    geneSpeciesMapping.append(boost::python::make_tuple("A1","A"));
-    geneSpeciesMapping.append(boost::python::make_tuple("B1","B"));
-    geneSpeciesMapping.append(boost::python::make_tuple("C1","C"));
-
-    boost::python::list orthologs;
-    orthologs.append(boost::python::make_tuple("A1","C1"));
-
-    string corrected = CorrectParalogy(geneTreeString, speciesTreeString, geneSpeciesMapping, orthologs);
-    cout << "corrected : " << corrected <<endl;
-
-
+  
     map<string, string> args;
 
     string prevArg = "";
