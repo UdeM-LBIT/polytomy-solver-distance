@@ -52,6 +52,52 @@ void ParalogyCorrector::EnsureOrthologsSymnmetry(vector<pair<string, string> > &
 }
 
 
+string ParalogyCorrector::CorrectGeneTree(string geneTreeString, string speciesTreeString, boost::python::list geneSpeciesMapping, boost::python::list orthologs ) {
+    // Input : Newick strings for geneTree and speciesTree as well as lists of string gene name tuples
+    // containing ortholog and gene/species mapping information
+
+    Py_Initialize();
+
+    namespace bp = boost::python;
+
+    /* Build geneTree and speciesTree from newick strings */
+    // Note : first string in tuple must be a gene name from the gene tree and second must be a gene name from the species tree.
+    Node* geneTree = NewickLex::ParseNewickString(geneTreeString);
+    Node* speciesTree = NewickLex::ParseNewickString(speciesTreeString, true);
+
+    /* Build node map from gene name string tuple list */
+    map<Node*, Node*> geneSpeciesMapping_map;
+    //WARNING : GetNodeWithLabel() is sub optimal (see DoParalogyCorrection() note in main.cpp)
+    while (bp::extract<int>(geneSpeciesMapping.attr("__len__")())>0)
+    {
+        bp::object mapping_tuple = geneSpeciesMapping.pop();
+
+        Node* g = geneTree->GetNodeWithLabel(bp::extract<string>(mapping_tuple.attr("__getitem__")(0)), true);
+        Node* s = speciesTree->GetNodeWithLabel(bp::extract<string>(mapping_tuple.attr("__getitem__")(1)), true);
+
+        geneSpeciesMapping_map[g] = s;
+    }
+
+    /* Build vector of ortholog pairs from gene name string tuple list */
+    vector<pair<string, string>> orthologs_vec;
+
+    while (bp::extract<int>(orthologs.attr("__len__")())!=0)
+    {
+        bp::object mapping_tuple = orthologs.pop();
+        string gene_name_1 = bp::extract<string>(mapping_tuple.attr("__getitem__")(0));
+        string gene_name_2 = bp::extract<string>(mapping_tuple.attr("__getitem__")(1));
+        pair<string,string> p = make_pair(gene_name_1, gene_name_2);
+        orthologs_vec.push_back(p);
+    }
+
+    Node* corrected_tree = CorrectGeneTree(geneTree, speciesTree, geneSpeciesMapping_map, orthologs_vec);
+
+    if (corrected_tree != NULL)
+        return NewickLex::ToNewickString(corrected_tree);
+
+    return "";
+}
+
 Node* ParalogyCorrector::CorrectGeneTree(Node* geneTree, Node* speciesTree, map<Node*, Node*> &geneSpeciesMapping, vector<pair<string, string> > &orthologs)
 {
     map<Node*, Node*> lcaMapping;
@@ -59,10 +105,6 @@ Node* ParalogyCorrector::CorrectGeneTree(Node* geneTree, Node* speciesTree, map<
     map<string, Node*> genesByName;
     return CorrectGeneTree(geneTree, speciesTree, geneSpeciesMapping, orthologs, lcaMapping, forb, genesByName);
 }
-
-
-
-
 
 Node* ParalogyCorrector::CorrectGeneTree(Node* geneTree, Node* speciesTree, map<Node*, Node*> &geneSpeciesMapping, vector<pair<string, string> > &orthologs, map<Node*, Node*> &lcaMapping, set<Node*> &forbiddenClades, map<string, Node*> &genesByName)
 {
@@ -81,7 +123,6 @@ Node* ParalogyCorrector::CorrectGeneTree(Node* geneTree, Node* speciesTree, map<
     {
         EnsureOrthologsSymnmetry(orthologs);
 
-
         //first pass to get LCA mapping
         //Suboptimal : takes something like O(n^2) as the lca is not constant
         TreeIterator* it = geneTree->GetPostOrderIterator();
@@ -99,7 +140,6 @@ Node* ParalogyCorrector::CorrectGeneTree(Node* geneTree, Node* speciesTree, map<
             }
         }
         geneTree->CloseIterator(it);
-
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //STEP 1 : identify forbidden subtrees

@@ -3,14 +3,14 @@
 
 #include "node.h"
 
-
-
-
 #include <map>
 #include <string>
 #include <vector>
 #include <set>
 
+#include <boost/python/tuple.hpp>
+#include <boost/python/list.hpp>
+#include <boost/python/extract.hpp>
 
 #include "newicklex.h"
 
@@ -68,6 +68,9 @@ public:
 
       **/
     Node* CorrectGeneTree(Node* geneTree, Node* speciesTree, map<Node*, Node*> &geneSpeciesMapping, vector<pair<string, string> > &orthologs);
+
+    /* Wrapper for python class */
+    string CorrectGeneTree(string geneTreeString, string speciesTreeString, boost::python::list geneSpeciesMapping, boost::python::list orthologs);
 
 
 };
